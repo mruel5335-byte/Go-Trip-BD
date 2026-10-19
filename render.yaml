@@ -1,0 +1,23 @@
+# Render Blueprint: one web service + persistent disk for SQLite.
+# NOTE: persistent disks require a paid instance type on Render.
+services:
+  - type: web
+    name: go-trip-bd
+    runtime: docker
+    plan: starter
+    healthCheckPath: /healthz
+    disk:
+      name: gotrip-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /data/gotrip.db
+      - key: TRUST_PROXY
+        value: "1"
+      - key: ADMIN_PHONE
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
